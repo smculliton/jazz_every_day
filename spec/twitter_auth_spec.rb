@@ -49,7 +49,6 @@ RSpec.describe TwitterAuth do
     describe '#oauth_signature' do 
       it 'returns oauth signature based on provided info' do 
         expect(@auth.oauth_signature).to be_a String
-        require 'pry'; binding.pry
       end
     end
 
