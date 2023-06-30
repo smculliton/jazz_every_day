@@ -45,7 +45,6 @@ class TwitterAuth
 
   def signature_param_hash
     {
-      include_entities: 'true',
       oauth_consumer_key: consumer_key,
       oauth_nonce: oauth_nonce,
       oauth_signature_method: 'HMAC-SHA1',

@@ -1,0 +1,36 @@
+require 'faraday'
+require './lib/twitter_auth.rb'
+
+class TwitterClient
+  def initialize(key_hash)
+    @key_hash = key_hash
+  end
+
+  def post_tweet(text)
+    response = conn.post('/2/tweets') do |req|
+      req.headers['Authorization'] = TwitterAuth.new('POST', 'https://api.twitter.com/2/tweets', @key_hash).header_string
+      req.body = { text: text }.to_json
+    end
+  end
+
+  def user
+    response = conn.get('/2/users/me') do |req|
+      req.headers['Authorization'] = TwitterAuth.new('POST', 'https://api.twitter.com/2/tweets', @key_hash).header_string
+    end
+  end
+
+  def conn
+    Faraday.new('https://api.twitter.com')
+  end
+end
+
+key_hash = {
+  consumer_key: 'nSCjmUsC9qiOEPwTBaNaVaMwQ',
+  consumer_secret: '2BL2xnVx4NREA3JNd007RBOjIPUd2t72s29wy0GzD9s5uwtrg1',
+  access_token: '1673555169144094720-f817s5OLWDg4p6Cs6NA9CTQGQaGRCV',
+  token_secret: '2VQylPqQehzbl7akgLTomLpgVZwQ0xKWOqDXTnu3YiwMP'
+}
+
+client = TwitterClient.new(key_hash)
+
+require 'pry'; binding.pry

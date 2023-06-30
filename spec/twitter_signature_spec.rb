@@ -14,17 +14,35 @@ RSpec.describe TwitterSignature do
         oauth_version: '1.0',
         status: 'Hello Ladies + Gentlemen, a signed OAuth request!'
       }
-      keys = {
+      @keys = {
         consumer_secret: 'kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw',
         token_secret: 'LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE'
       }
-      method = 'POST'
-      base_url = 'https://api.twitter.com/1.1/statuses/update.json'
-      @signature = TwitterSignature.new(params, keys, method, base_url)
+      @method = 'POST'
+      @base_url = 'https://api.twitter.com/1.1/statuses/update.json'
+      @signature = TwitterSignature.new(params, @keys, @method, @base_url)
     end
 
-    it 'creates parameter string' do
-      expect(@signature.param_string).to eq('include_entities=true&oauth_consumer_key=xvz1evFS4wEEPTGEFPHBog&oauth_nonce=kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1318622958&oauth_token=370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb&oauth_version=1.0&status=Hello%20Ladies%20%2B%20Gentlemen%2C%20a%20signed%20OAuth%20request%21')
+    describe '#param_string' do 
+      it 'creates parameter string' do
+        expect(@signature.param_string).to eq('include_entities=true&oauth_consumer_key=xvz1evFS4wEEPTGEFPHBog&oauth_nonce=kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1318622958&oauth_token=370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb&oauth_version=1.0&status=Hello%20Ladies%20%2B%20Gentlemen%2C%20a%20signed%20OAuth%20request%21')
+      end
+
+      it 'sorts params alphabetically by key before generating string' do 
+        params = {
+          status: 'Hello Ladies + Gentlemen, a signed OAuth request!',
+          oauth_consumer_key: 'xvz1evFS4wEEPTGEFPHBog',
+          oauth_signature_method: 'HMAC-SHA1',
+          oauth_timestamp: '1318622958',
+          include_entities: 'true',
+          oauth_token: '370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb',
+          oauth_version: '1.0',
+          oauth_nonce: 'kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg'
+        }
+        signature = TwitterSignature.new(params, @keys, @method, @base_url)
+
+        expect(signature.param_string).to eq('include_entities=true&oauth_consumer_key=xvz1evFS4wEEPTGEFPHBog&oauth_nonce=kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1318622958&oauth_token=370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb&oauth_version=1.0&status=Hello%20Ladies%20%2B%20Gentlemen%2C%20a%20signed%20OAuth%20request%21')
+      end
     end
 
     it 'creates signature base string' do 

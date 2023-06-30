@@ -11,6 +11,10 @@ class TwitterSignature
   end
 
   def param_string
+    # Sort params alphabetically
+    @params = @params.sort_by { |key| key }.to_h
+    
+    # Reduce params to param string
     @params.reduce('') do |str, (key, value)| 
       "#{str}#{ERB::Util.url_encode key}=#{ERB::Util.url_encode value}&"
     end.chop
