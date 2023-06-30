@@ -4,6 +4,7 @@ GEM
     base64 (0.1.1)
     cgi (0.3.6)
     diff-lcs (1.4.4)
+    dotenv (2.8.1)
     faraday (2.7.8)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
@@ -31,6 +32,7 @@ PLATFORMS
 DEPENDENCIES
   base64
   cgi
+  dotenv
   faraday
   openssl
   rspec

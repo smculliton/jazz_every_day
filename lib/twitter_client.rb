@@ -1,5 +1,7 @@
 require 'faraday'
+require 'dotenv'
 require './lib/twitter_auth.rb'
+Dotenv.load
 
 class TwitterClient
   def initialize(key_hash)
@@ -28,10 +30,10 @@ class TwitterClient
 end
 
 key_hash = {
-  consumer_key: 'nSCjmUsC9qiOEPwTBaNaVaMwQ',
-  consumer_secret: '2BL2xnVx4NREA3JNd007RBOjIPUd2t72s29wy0GzD9s5uwtrg1',
-  access_token: '1673555169144094720-f817s5OLWDg4p6Cs6NA9CTQGQaGRCV',
-  token_secret: '2VQylPqQehzbl7akgLTomLpgVZwQ0xKWOqDXTnu3YiwMP'
+  consumer_key: ENV["consumer_key"],
+  consumer_secret: ENV["consumer_secret"],
+  access_token: ENV["access_token"],
+  token_secret: ENV["token_secret"]
 }
 
 client = TwitterClient.new(key_hash)
