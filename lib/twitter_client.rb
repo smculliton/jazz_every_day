@@ -15,12 +15,13 @@ class TwitterClient
 
   def user
     response = conn.get('/2/users/me') do |req|
-      req.headers['Authorization'] = TwitterAuth.new('POST', 'https://api.twitter.com/2/tweets', @key_hash).header_string
+      req.headers['Authorization'] = TwitterAuth.new('GET', 'https://api.twitter.com/2/users/me', @key_hash, { expansions: 'pinned_tweet_id' }).header_string
+      req.params = { expansions: 'pinned_tweet_id' }
     end
   end
 
   def conn
-    Faraday.new('https://api.twitter.com')
+    Faraday.new({url: 'https://api.twitter.com', headers: {'Content-Type' => 'application/json'}})
   end
 end
 

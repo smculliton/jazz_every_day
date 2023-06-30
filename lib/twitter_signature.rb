@@ -8,6 +8,7 @@ class TwitterSignature
     @keys = keys 
     @method = method
     @base_url = base_url
+    require 'pry'; binding.pry
   end
 
   def param_string
