@@ -8,7 +8,7 @@ class TwitterClient
 
   def post_tweet(text)
     response = conn.post('/2/tweets') do |req|
-      req.headers['Authorization'] = TwitterAuth.new('POST', 'https://api.twitter.com/2/tweets', @key_hash).header_string
+      req.headers['Authorization'] = TwitterAuth.new('POST', 'https://api.twitter.com/2/tweets', @key_hash, { text: text }).header_string
       req.body = { text: text }.to_json
     end
   end

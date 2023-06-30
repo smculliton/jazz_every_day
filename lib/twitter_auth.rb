@@ -6,7 +6,7 @@ require './lib/twitter_signature.rb'
 class TwitterAuth
   attr_reader :consumer_key, :consumer_secret, :access_token, :token_secret, :method, :base_url, :oauth_nonce, :oauth_timestamp
 
-  def initialize(method, base_url, key_hash)
+  def initialize(method, base_url, key_hash, optional_params = {})
     @method = method
     @base_url = base_url
     @consumer_key = key_hash[:consumer_key]
@@ -15,10 +15,11 @@ class TwitterAuth
     @access_secret = key_hash[:token_secret]
     @oauth_nonce = generate_oauth_nonce
     @oauth_timestamp = generate_oauth_timestamp
+    @optional_params = optional_params
   end
 
   def header_string
-    param_hash.reduce('OAuth ') do |str, (key, value)|
+    param_hash.merge(@optional_params).reduce('OAuth ') do |str, (key, value)|
       "#{str}#{ERB::Util.url_encode key}=\"#{ERB::Util.url_encode value}\", "
     end.chop.chop
   end
