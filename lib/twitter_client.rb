@@ -7,14 +7,16 @@ class TwitterClient
   end
 
   def post_tweet(text)
-    response = conn.post('/2/tweets') do |req|
-      req.headers['Authorization'] = TwitterAuth.new('POST', 'https://api.twitter.com/2/tweets', @key_hash, { text: text }).header_string
-      req.body = { text: text }.to_json
+    body = { text: text }.to_json
+    conn.post('/2/tweets') do |req|
+      req.headers['Authorization'] = TwitterAuth.new('POST', 'https://api.twitter.com/2/tweets', @key_hash).header_string
+      req.headers['Content-Length'] = body.length.to_s
+      req.body = body
     end
   end
 
   def user
-    response = conn.get('/2/users/me') do |req|
+    conn.get('/2/users/me') do |req|
       req.headers['Authorization'] = TwitterAuth.new('GET', 'https://api.twitter.com/2/users/me', @key_hash, { expansions: 'pinned_tweet_id' }).header_string
       req.params = { expansions: 'pinned_tweet_id' }
     end
