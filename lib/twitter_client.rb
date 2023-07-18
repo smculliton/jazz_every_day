@@ -35,7 +35,3 @@ key_hash = {
   access_token: ENV["access_token"],
   token_secret: ENV["token_secret"]
 }
-
-client = TwitterClient.new(key_hash)
-
-require 'pry'; binding.pry

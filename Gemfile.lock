@@ -25,6 +25,7 @@ GEM
     rspec-support (3.11.1)
     ruby2_keywords (0.0.5)
     securerandom (0.2.2)
+    uri (0.11.0)
 
 PLATFORMS
   x86_64-darwin-21
@@ -37,6 +38,7 @@ DEPENDENCIES
   openssl
   rspec
   securerandom
+  uri
 
 BUNDLED WITH
    2.4.6
