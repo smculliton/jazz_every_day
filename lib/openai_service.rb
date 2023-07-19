@@ -4,9 +4,11 @@ Dotenv.load
 
 class OpenAiService
   def self.get_story(name)
-    conn.post('/v1/chat/completions') do |req|
+    response = conn.post('/v1/chat/completions') do |req|
       req.body = body(name)
     end
+
+    JSON.parse(response.body, symbolize_names: true)
   end
 
   def self.body(name)
@@ -29,5 +31,3 @@ class OpenAiService
     Faraday.new({url: 'https://api.openai.com', headers: {'Authorization' => "Bearer #{ENV['openai_key']}", 'Content-Type' => 'application/json'}})
   end
 end
-
-require 'pry'; binding.pry
