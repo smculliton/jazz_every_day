@@ -6,10 +6,12 @@ Dotenv.load
 
 class SpotifyService
   def self.search_artists(q)
-    conn.get('/v1/search') do |req|
+    response = conn.get('/v1/search') do |req|
       req.params['q'] = q
       req.params['type'] = 'artist'
     end
+
+    JSON.parse(response.body, symbolize_names: true)
   end
 
   def self.conn
@@ -38,5 +40,3 @@ class SpotifyService
   end
 end
 
-x = SpotifyService.search_artists('genre:jazz')
-require 'pry'; binding.pry
