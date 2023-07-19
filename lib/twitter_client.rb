@@ -37,10 +37,12 @@ class TwitterClient
     img = Base64.encode64( open(img_url).read).gsub("\n", '')
     body = { media_data: img }
 
-    Faraday.post('https://upload.twitter.com/1.1/media/upload.json') do |req|
+    res = Faraday.post('https://upload.twitter.com/1.1/media/upload.json') do |req|
       req.headers['Authorization'] = TwitterAuth.new('POST', 'https://upload.twitter.com/1.1/media/upload.json', @key_hash, { media_data: img }).header_string
       req.body = body
     end
+
+    JSON.parse(res.body, symbolize_names: true)
   end
 
   def conn
@@ -56,6 +58,6 @@ key_hash = {
 }
 
 
-client = TwitterClient.new(key_hash)
-x = client.post_tweet_w_media('Sick pic!', '1681451935298371584')
-require 'pry'; binding.pry
+# client = TwitterClient.new(key_hash)
+# x = client.post_tweet_w_media('Sick pic!', '1681451935298371584')
+# require 'pry'; binding.pry
