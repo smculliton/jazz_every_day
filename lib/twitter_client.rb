@@ -50,12 +50,12 @@ class TwitterClient
   end
 end
 
-key_hash = {
-  consumer_key: ENV["consumer_key"],
-  consumer_secret: ENV["consumer_secret"],
-  access_token: ENV["access_token"],
-  token_secret: ENV["token_secret"]
-}
+# key_hash = {
+#   consumer_key: ENV["consumer_key"],
+#   consumer_secret: ENV["consumer_secret"],
+#   access_token: ENV["access_token"],
+#   token_secret: ENV["token_secret"]
+# }
 
 
 # client = TwitterClient.new(key_hash)
