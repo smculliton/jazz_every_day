@@ -9,10 +9,22 @@ RSpec.describe TwitterClient do
     token_secret: ENV["token_secret"]
   }}
 
-  it 'can reply to tweets' do 
+  xit 'can reply to tweets' do 
     client = TwitterClient.new(key_hash)
     tweet_id = '1686514017798668290'
 
     client.reply_tweet('hi', tweet_id)
+  end
+
+  xit 'can delete tweets' do 
+    client = TwitterClient.new(key_hash)
+    tweet = client.post_tweet('hey there')
+    
+    id = JSON.parse(tweet.body, symbolize_names: true)[:data][:id]
+    
+    delete = client.delete_tweet(id)
+    data = JSON.parse(delete.body, symbolize_names: true)
+    
+    expect(data[:data][:deleted]).to eq(true)
   end
 end

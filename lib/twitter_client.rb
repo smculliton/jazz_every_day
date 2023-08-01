@@ -34,6 +34,13 @@ class TwitterClient
     end
   end
 
+  def delete_tweet(id)
+    uri = "/2/tweets/#{id}"
+    conn.delete(uri) do |req|
+      req.headers['Authorization'] = TwitterAuth.new('DELETE', "https://api.twitter.com#{uri}", @key_hash).header_string
+    end
+  end
+
   def user
     conn.get('/2/users/me') do |req|
       req.headers['Authorization'] = TwitterAuth.new('GET', 'https://api.twitter.com/2/users/me', @key_hash, { expansions: 'pinned_tweet_id' }).header_string
@@ -67,5 +74,7 @@ end
 
 
 # client = TwitterClient.new(key_hash)
+# require 'pry'; binding.pry
+
 # x = client.post_tweet_w_media('Sick pic!', '1681451935298371584')
 # require 'pry'; binding.pry
