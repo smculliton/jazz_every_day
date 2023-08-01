@@ -26,6 +26,21 @@ class TwitterClient
     end
   end
 
+  def reply_tweet(text, tweet_id)
+    body = { text: text, reply: { in_reply_to_tweet_id: tweet_id } }.to_json
+    conn.post('/2/tweets') do |req|
+      req.headers['Authorization'] = TwitterAuth.new('POST', 'https://api.twitter.com/2/tweets', @key_hash).header_string
+      req.body = body
+    end
+  end
+
+  def delete_tweet(id)
+    uri = "/2/tweets/#{id}"
+    conn.delete(uri) do |req|
+      req.headers['Authorization'] = TwitterAuth.new('DELETE', "https://api.twitter.com#{uri}", @key_hash).header_string
+    end
+  end
+
   def user
     conn.get('/2/users/me') do |req|
       req.headers['Authorization'] = TwitterAuth.new('GET', 'https://api.twitter.com/2/users/me', @key_hash, { expansions: 'pinned_tweet_id' }).header_string
@@ -50,14 +65,16 @@ class TwitterClient
   end
 end
 
-key_hash = {
-  consumer_key: ENV["consumer_key"],
-  consumer_secret: ENV["consumer_secret"],
-  access_token: ENV["access_token"],
-  token_secret: ENV["token_secret"]
-}
+# key_hash = {
+#   consumer_key: ENV["consumer_key"],
+#   consumer_secret: ENV["consumer_secret"],
+#   access_token: ENV["access_token"],
+#   token_secret: ENV["token_secret"]
+# }
 
 
 # client = TwitterClient.new(key_hash)
+# require 'pry'; binding.pry
+
 # x = client.post_tweet_w_media('Sick pic!', '1681451935298371584')
 # require 'pry'; binding.pry
