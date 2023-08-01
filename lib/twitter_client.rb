@@ -26,6 +26,14 @@ class TwitterClient
     end
   end
 
+  def reply_tweet(text, tweet_id)
+    body = { text: text, reply: { in_reply_to_tweet_id: tweet_id } }.to_json
+    conn.post('/2/tweets') do |req|
+      req.headers['Authorization'] = TwitterAuth.new('POST', 'https://api.twitter.com/2/tweets', @key_hash).header_string
+      req.body = body
+    end
+  end
+
   def user
     conn.get('/2/users/me') do |req|
       req.headers['Authorization'] = TwitterAuth.new('GET', 'https://api.twitter.com/2/users/me', @key_hash, { expansions: 'pinned_tweet_id' }).header_string
