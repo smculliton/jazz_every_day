@@ -34,6 +34,18 @@ class TwitterClient
     end
   end
 
+  def thread(text_array, media_id = false)
+    if media_id
+      tweet = post_tweet_w_media(text_array[0], media_id)
+    else
+      tweet = post_tweet(text_array[0])
+    end
+
+    id = JSON.parse(tweet.body, symbolize_names: true)[:data][:id]
+    text_array[1..-1].each { |text| reply_tweet(text, id) }
+    tweet
+  end
+
   def delete_tweet(id)
     uri = "/2/tweets/#{id}"
     conn.delete(uri) do |req|
