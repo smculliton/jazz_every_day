@@ -21,7 +21,7 @@ class OpenAiService
         },
         {
           'role': 'user',
-          'content': "In 280 characters or less, tell a story about #{name}"
+          'content': "In 300 words, tell a story about #{name}"
         }
       ]
     }.to_json
