@@ -37,15 +37,21 @@ class TwitterClient
     end
   end
 
-  def thread(text_array, media_id = false)
+  def thread(text, media_id = false)
+    text_array = reformat_text_to_thread(text)
+
     if media_id
-      tweet = post_tweet_w_media(text_array[0], media_id)
+      tweet = post_tweet_w_media(text_array[0].concat(" 🧵"), media_id)
     else
-      tweet = post_tweet(text_array[0])
+      tweet = post_tweet(text_array[0].concat(" 🧵"))
     end
 
     id = JSON.parse(tweet.body, symbolize_names: true)[:data][:id]
-    text_array[1..-1].each { |text| reply_tweet(text, id) }
+    text_array[1..-1].each do |reply_text| 
+      reply_tweet = reply_tweet(reply_text, id)
+
+      id = JSON.parse(reply_tweet.body, symbolize_names: true)[:data][:id]
+    end
     tweet
   end
 
