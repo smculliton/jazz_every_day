@@ -51,5 +51,15 @@ RSpec.describe ThreadFormatter do
       expect(thread.all? { |e| e[-1] == '.' || e[-1] == '"' }).to eq(true)
       expect(thread.all? { |e| e.length <= 275 }).to eq(true)
     end
+
+    it 'works with other examples' do 
+      text = "Ella Fitzgerald, the iconic jazz singer, emerged from a challenging upbringing to become a true musical legend. Born in 1917 in Newport News, Virginia, Ella faced adversity early on, as her parents separated when she was young. Struggling financially, she ended up in the care of her aunt, who soon passed away. By her early teens, Ella had experienced the pain of loss and poverty, often finding solace in music. In 1934, at the age of 17, Ella participated in an amateur contest at the Apollo Theater in Harlem. She had planned to dance, but stage fright led her to sing instead. She chose a song she knew well, \"Judy,\" and her soulful voice captured the audience's attention. She won first prize and began performing in local clubs, ultimately catching the eye of bandleader Chick Webb. Ella's partnership with Chick Webb's orchestra marked the beginning of her rise to fame. Despite her shy demeanor offstage, she exuded confidence and charisma in her performances. In 1938, her rendition of \"A-Tisket, A-Tasket\" skyrocketed her to national recognition and led to her becoming the band's vocalist. After Webb's passing in 1939, Ella took over leadership of the orchestra and continued to forge her unique path. She embarked on a solo career, mastering scat singing and using her voice as an instrument. Her collaborations with jazz luminaries like Duke Ellington and Louis Armstrong further solidified her status as a jazz icon. Ella's influence extended beyond music. In a racially segregated era, she faced discrimination firsthand, but she chose to combat it with her art. She performed for integrated audiences and broke down barriers through her sheer talent and grace. Ella Fitzgerald's legacy endures through her countless recordings and live performances, showcasing her unparalleled vocal range and emotional depth. Her journey from a challenging upbringing to becoming the \"First Lady of Song\" serves as a testament to the power of music to transcend adversity and touch the hearts of millions. Her voice, still celebrated today, remains a symbol of hope, resilience, and the transformative nature of art."
+
+      thread = client.reformat_text_to_thread(text)
+
+      expect(thread.all? { |e| e[0] != '"' }).to eq(true)
+      expect(thread.all? { |e| e[-1] == '.' || e[-1] == '"' }).to eq(true)
+      expect(thread.all? { |e| e.length <= 275 }).to eq(true)
+    end
   end
 end
