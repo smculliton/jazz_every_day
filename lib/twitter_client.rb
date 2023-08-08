@@ -2,10 +2,13 @@ require 'faraday'
 require 'dotenv'
 require 'base64'
 require 'open-uri'
-require './lib/twitter_auth.rb'
+require './lib/twitter_auth'
+require './lib/thread_formatter'
 Dotenv.load
 
 class TwitterClient
+  include ThreadFormatter
+
   def initialize(key_hash)
     @key_hash = key_hash
   end
