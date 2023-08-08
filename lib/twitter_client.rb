@@ -2,10 +2,13 @@ require 'faraday'
 require 'dotenv'
 require 'base64'
 require 'open-uri'
-require './lib/twitter_auth.rb'
+require './lib/twitter_auth'
+require './lib/thread_formatter'
 Dotenv.load
 
 class TwitterClient
+  include ThreadFormatter
+
   def initialize(key_hash)
     @key_hash = key_hash
   end
@@ -32,6 +35,24 @@ class TwitterClient
       req.headers['Authorization'] = TwitterAuth.new('POST', 'https://api.twitter.com/2/tweets', @key_hash).header_string
       req.body = body
     end
+  end
+
+  def thread(text, media_id = false)
+    text_array = reformat_text_to_thread(text)
+
+    if media_id
+      tweet = post_tweet_w_media(text_array[0].concat(" 🧵"), media_id)
+    else
+      tweet = post_tweet(text_array[0].concat(" 🧵"))
+    end
+
+    id = JSON.parse(tweet.body, symbolize_names: true)[:data][:id]
+    text_array[1..-1].each do |reply_text| 
+      reply_tweet = reply_tweet(reply_text, id)
+
+      id = JSON.parse(reply_tweet.body, symbolize_names: true)[:data][:id]
+    end
+    tweet
   end
 
   def delete_tweet(id)

@@ -15,9 +15,9 @@ class PostGenerator
     image = twitter.upload_media(artist.image_url)
     image_id = image[:media_id_string]
 
-    text = OpenAiFacade.create_copy(artist.name)[0..279]
+    text = OpenAiFacade.create_copy(artist.name)
 
-    twitter.post_tweet_w_media(text, image_id)
+    twitter.thread(text, image_id)
   end
 end
 
