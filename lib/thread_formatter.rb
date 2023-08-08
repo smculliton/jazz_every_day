@@ -1,6 +1,6 @@
 module ThreadFormatter
   def reformat_text_to_thread(text, thread_array = [])
-    text.delete!("\n") if thread_array.length == 0
+    text.gsub!("\n", ' ') if thread_array.length == 0
     string = ''
     i = 0
 
