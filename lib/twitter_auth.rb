@@ -1,10 +1,11 @@
 require 'erb'
 require 'securerandom'
 require 'date'
-require './lib/twitter_signature.rb'
+require './lib/twitter_signature'
 
 class TwitterAuth
-  attr_reader :consumer_key, :consumer_secret, :access_token, :token_secret, :method, :base_url, :oauth_nonce, :oauth_timestamp
+  attr_reader :consumer_key, :consumer_secret, :access_token, :token_secret, :method, :base_url, :oauth_nonce,
+              :oauth_timestamp
 
   def initialize(method, base_url, key_hash, optional_params = {})
     @method = method

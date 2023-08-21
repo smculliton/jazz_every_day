@@ -1,9 +1,9 @@
 require 'rspec'
 require './lib/twitter_auth'
 
-RSpec.describe TwitterAuth do 
-  before(:each) do 
-    @test_date = DateTime.new(2001,2,3,4,5,6)
+RSpec.describe TwitterAuth do
+  before(:each) do
+    @test_date = DateTime.new(2001, 2, 3, 4, 5, 6)
     allow(DateTime).to receive(:now) { @test_date }
     @key_hash = {
       consumer_key: 'xvz1evFS4wEEPTGEFPHBog',
@@ -20,8 +20,8 @@ RSpec.describe TwitterAuth do
 
     @auth = TwitterAuth.new(@method, @base_url, @key_hash)
   end
-  describe 'creation' do 
-    it 'exists' do 
+  describe 'creation' do
+    it 'exists' do
       expect(@auth).to be_a TwitterAuth
       expect(@auth.base_url).to eq(@base_url)
       expect(@auth.method).to eq(@method)
@@ -39,34 +39,34 @@ RSpec.describe TwitterAuth do
     end
 
     xit 'includes optional params if given' do
-      auth = TwitterAuth.new(@method, @base_url, @key_hash, { text: 'Hello, World'})
+      auth = TwitterAuth.new(@method, @base_url, @key_hash, { text: 'Hello, World' })
       allow(auth).to receive(:oauth_nonce) { @oauth_nonce }
       allow(auth).to receive(:oauth_signature) { @oauth_signature }
       allow(auth).to receive(:oauth_timestamp) { @oauth_timestamp }
-      
+
       expect(auth.header_string.include?('text="Hello%2C%20World"')).to eq(true)
     end
   end
 
-  describe 'instance methods' do 
-    describe '#oauth_timestamp' do 
-      it 'returns a timestamp represented by seconds' do 
+  describe 'instance methods' do
+    describe '#oauth_timestamp' do
+      it 'returns a timestamp represented by seconds' do
         expect(@auth.oauth_timestamp).to eq(@test_date.strftime('%s'))
       end
     end
 
-    describe '#oauth_signature' do 
-      it 'returns oauth signature based on provided info' do 
+    describe '#oauth_signature' do
+      it 'returns oauth signature based on provided info' do
         expect(@auth.oauth_signature).to be_a String
       end
     end
 
-    describe '#oauth_nonce' do 
-      it 'generates a random string' do 
+    describe '#oauth_nonce' do
+      it 'generates a random string' do
         expect(@auth.oauth_nonce).to be_a String
       end
 
-      it 'the random generated string does not change' do 
+      it 'the random generated string does not change' do
         str = @auth.oauth_nonce
         expect(@auth.oauth_nonce).to eq(str)
       end

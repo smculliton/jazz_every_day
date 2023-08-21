@@ -12,8 +12,8 @@ module ThreadFormatter
         string.concat(text[0..text.index('.')])
         text = text[text.index('.') + 1..]
       end
-    else 
-      thread_array << text 
+    else
+      thread_array << text
       return thread_array
     end
 
@@ -27,6 +27,3 @@ module ThreadFormatter
     reformat_text_to_thread(text.strip, thread_array)
   end
 end
-
-
-

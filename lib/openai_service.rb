@@ -28,6 +28,7 @@ class OpenAiService
   end
 
   def self.conn
-    Faraday.new({url: 'https://api.openai.com', headers: {'Authorization' => "Bearer #{ENV['openai_key']}", 'Content-Type' => 'application/json'}})
+    Faraday.new({ url: 'https://api.openai.com',
+                  headers: { 'Authorization' => "Bearer #{ENV['openai_key']}", 'Content-Type' => 'application/json' } })
   end
 end

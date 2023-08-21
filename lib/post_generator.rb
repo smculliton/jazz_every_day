@@ -20,4 +20,3 @@ class PostGenerator
     twitter.thread(text, image_id)
   end
 end
-
