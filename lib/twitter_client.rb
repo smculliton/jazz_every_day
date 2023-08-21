@@ -92,16 +92,3 @@ class TwitterClient
     Faraday.new({ url: 'https://api.twitter.com', headers: { 'Content-Type' => 'application/json' } })
   end
 end
-
-# key_hash = {
-#   consumer_key: ENV["consumer_key"],
-#   consumer_secret: ENV["consumer_secret"],
-#   access_token: ENV["access_token"],
-#   token_secret: ENV["token_secret"]
-# }
-
-# client = TwitterClient.new(key_hash)
-# require 'pry'; binding.pry
-
-# x = client.post_tweet_w_media('Sick pic!', '1681451935298371584')
-# require 'pry'; binding.pry
