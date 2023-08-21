@@ -75,7 +75,7 @@ class TwitterClient
   end
 
   def upload_media(img_url)
-    img = Base64.encode64(open(img_url).read).gsub("\n", '')
+    img = Base64.encode64(URI.open(img_url).read).gsub("\n", '')
     body = { media_data: img }
 
     res = Faraday.post('https://upload.twitter.com/1.1/media/upload.json') do |req|
